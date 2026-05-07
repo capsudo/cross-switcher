@@ -2008,7 +2008,7 @@ export const WindowSwitcherPopup = {
     _toggleWinAbove() {
         let selected = this._getSelectedTarget();
 
-        if (!selected?._isWindow)
+        if (!selected?.make_above)
             return;
 
         this._actions.toggleAboveWindow(selected);
@@ -2019,7 +2019,7 @@ export const WindowSwitcherPopup = {
     _toggleWinSticky() {
         let selected = this._getSelectedTarget();
 
-        if (!selected?._isWindow)
+        if (!selected?.stick)
             return;
 
         this._actions.toggleStickyWindow(selected);
