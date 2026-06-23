@@ -3,7 +3,7 @@
  * ListProvider
  *
  * @author     GdH <G-dH@github.com>
- * @copyright  2021-2025
+ * @copyright  2021-2026
  * @license    GPL-3.0
  */
 
@@ -38,14 +38,12 @@ export class ListProvider {
 
         this._insufficientResultsLimit = !searchQuery && this._keyboardTriggered && this._allowFilterSwitchOnOnlyItem ? 1 : 0;
         this._filterSwitchAllowed = !searchQuery || (this._opt.SEARCH_ALL && !!searchQuery);
-        this._workspace = this._currentFilterMode > Enum.FilterMode.ALL
-            ? global.workspace_manager.get_active_workspace()
-            : null;
+        this._workspace = global.workspace_manager.get_active_workspace();
         this._monitorIndex = this._currentFilterMode === Enum.FilterMode.MONITOR
             ? this._wsp._monitorIndex
             : null;
 
-        this._filterWorkspace = this._workspace !== null;
+        this._filterWorkspace = this._currentFilterMode > Enum.FilterMode.ALL;
         this._filterMonitor = this._monitorIndex !== null && this._monitorIndex > -1;
     }
 
