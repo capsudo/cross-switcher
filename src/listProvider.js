@@ -38,12 +38,14 @@ export class ListProvider {
 
         this._insufficientResultsLimit = !searchQuery && this._keyboardTriggered && this._allowFilterSwitchOnOnlyItem ? 1 : 0;
         this._filterSwitchAllowed = !searchQuery || (this._opt.SEARCH_ALL && !!searchQuery);
-        this._workspace = global.workspace_manager.get_active_workspace();
+        this._workspace = this._currentFilterMode > Enum.FilterMode.ALL
+            ? global.workspace_manager.get_active_workspace()
+            : null;
         this._monitorIndex = this._currentFilterMode === Enum.FilterMode.MONITOR
             ? this._wsp._monitorIndex
             : null;
 
-        this._filterWorkspace = this._currentFilterMode > Enum.FilterMode.ALL;
+        this._filterWorkspace = this._workspace !== null;
         this._filterMonitor = this._monitorIndex !== null && this._monitorIndex > -1;
     }
 
@@ -130,7 +132,7 @@ export class ListProvider {
 
         this._currentWin = winList[0];
 
-        // after the shell restarts (X11) AltTab.getWindows(ws) generates different (wrong) win order than ...getwindows(null) (tested on GS 3.36 - 41)
+        // after the shell restarts (X11) AltTab.getWindows(ws) generates different (wrong) win order than ...get_windows(null)
         // so we will filter the list here if needed, to get consistent results in this situation for all FilterModes
         if (!allWindows && this._filterWorkspace) {
             winList = winList.filter(w => w.get_workspace() === this._workspace);
@@ -202,9 +204,10 @@ export class ListProvider {
         if (this._groupWorkspaces) {
             winList.sort((a, b) => b.get_workspace().index() < a.get_workspace().index());
         } else if (this._currentMonitorFirst) {
+            const currentWorkspace = this._workspace ?? global.workspace_manager.get_active_workspace();
             // windows from the active workspace and monitor first
-            winList.sort((a, b) => (b.get_workspace().index() === this._workspace.index() && b.get_monitor() === this._monitorIndex) &&
-                (a.get_workspace().index() !== this._workspace.index() || a.get_monitor() !== this._monitorIndex));
+            winList.sort((a, b) => (b.get_workspace().index() === currentWorkspace.index() && b.get_monitor() === this._monitorIndex) &&
+                (a.get_workspace().index() !== currentWorkspace.index() || a.get_monitor() !== this._monitorIndex));
         } else if (this._groupByApps) {
             // let apps = _getAppList(winList);
             let apps = this._getRunningAppsIds();
