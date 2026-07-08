@@ -1,7 +1,8 @@
 ## Changelog
-### v50.1 (not released yet)
+### v50.1 (2026-07-08)
 **Fixed:**
 - Irresponsive buttons _Always on visible workspace_ and _Always on top_
+- Sorting options could break the switcher ([#180](https://github.com/G-dH/advanced-alttab-window-switcher/issues/180))
 
 
 ### v50.0 (2026-05-04)
