@@ -1,4 +1,4 @@
-SHELL := /bin/bash
+SHELL := bash
 
 # Replace these with the name and domain of your extension!
 NAME     := cross-switcher
