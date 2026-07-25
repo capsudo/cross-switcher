@@ -20,6 +20,8 @@
           pkgs = import nixpkgs {
             inherit system;
           };
+          gsettingsDesktopSchemaDirectory =
+            "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/gsettings-desktop-schemas-${pkgs.gsettings-desktop-schemas.version}/glib-2.0/schemas";
         in
         {
           default = pkgs.mkShellNoCC {
@@ -27,11 +29,16 @@
               dbus
               glib
               glib.dev
+              gsettings-desktop-schemas
               gnome-shell
               gnumake
               unzip
               zip
             ];
+
+            shellHook = ''
+              export GSETTINGS_SCHEMA_DIR="${gsettingsDesktopSchemaDirectory}"
+            '';
           };
         });
     };

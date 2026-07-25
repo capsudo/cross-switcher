@@ -24,16 +24,13 @@
     {
       "label": "(re)start shell with extension",
       "type": "shell",
-      "command": "dbus-run-session",
+      "command": "bash",
       "dependsOn": [
         "(re)build extension"
       ],
       "dependsOrder": "sequence",
       "args": [
-        "--",
-        "bash",
-        "-lc",
-        "set -euo pipefail\nextension_uuid=\"cross-switcher@capsudo.github.com\"\ndevkit_profile_dir=\"${XDG_RUNTIME_DIR:-/tmp}/cross-switcher-gnome-devkit-profile\"\n\nmkdir -p \"$devkit_profile_dir/config\" \"$devkit_profile_dir/cache\" \"$devkit_profile_dir/state\"\n\nexport XDG_CONFIG_HOME=\"$devkit_profile_dir/config\"\nexport XDG_CACHE_HOME=\"$devkit_profile_dir/cache\"\nexport XDG_STATE_HOME=\"$devkit_profile_dir/state\"\n\ngsettings set org.gnome.shell enabled-extensions \"[\\\"$extension_uuid\\\"]\"\ngsettings set org.gnome.shell disabled-extensions \"[]\"\ngsettings set org.gnome.shell disable-user-extensions false\n\necho \"Using isolated GNOME profile: $devkit_profile_dir\"\n\n(\n  if ! gdbus wait --session --timeout 30 org.gnome.Shell; then\n    echo \"GNOME Shell did not appear on nested DBus session\" >&2\n    exit 1\n  fi\n\n  for _ in {1..60}; do\n    if gnome-extensions info \"$extension_uuid\" >/dev/null 2>&1; then\n      gnome-extensions enable \"$extension_uuid\"\n      echo \"Enabled $extension_uuid\"\n      exit 0\n    fi\n\n    sleep 1\n  done\n\n  if ! gnome-extensions info \"$extension_uuid\"; then\n    echo \"Extension $extension_uuid is not visible to nested GNOME Shell\" >&2\n    exit 1\n  fi\n) &\n\nexec gnome-shell --devkit --wayland"
+        "scripts/start-nested-shell-with-cross-switcher.sh"
       ],
       "options": {
         "cwd": "${workspaceFolder}"

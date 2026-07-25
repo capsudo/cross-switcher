@@ -57,6 +57,12 @@ One-time setup after cloning or after editing `.envrc`:
 direnv allow
 ```
 
+After editing `flake.nix`, reload current dev environment:
+
+```sh
+direnv reload
+```
+
 Expected result after direnv loads:
 
 ```sh
@@ -75,7 +81,7 @@ programs.direnv.nix-direnv.enable = true;
 Notes:
 - _`direnv`: system wide CLI tool that reads `.envrc`, asks for trust with `direnv allow`, then loads/unloads environment variables when entering/leaving project directory._
 - _`nix-direnv`: direnv integration. It adds efficient Nix support for `use flake`, caches evaluated dev shell environment, and keeps Nix outputs alive from garbage collection while allowed._
-- _VSC direnv extension uses system's `direnv`._
+- _VSC (VS Code / VS Codium) [direnv](https://github.com/direnv/direnv-vscode) extension allows to use this env in VSC integrated terminal and tasks (of type `shell`). It uses system's `direnv`._
 
 
 </details>
@@ -114,62 +120,10 @@ This will:
 - enable extension in this session
 
 ```sh
-dbus-run-session -- bash -lc '
-  set -euo pipefail
-  extension_uuid="cross-switcher@capsudo.github.com"
-  devkit_profile_dir="${XDG_RUNTIME_DIR:-/tmp}/cross-switcher-gnome-devkit-profile"
-
-  mkdir -p "$devkit_profile_dir/config" "$devkit_profile_dir/cache" "$devkit_profile_dir/state"
-
-  export XDG_CONFIG_HOME="$devkit_profile_dir/config"
-  export XDG_CACHE_HOME="$devkit_profile_dir/cache"
-  export XDG_STATE_HOME="$devkit_profile_dir/state"
-
-  gsettings set org.gnome.shell enabled-extensions "[\"$extension_uuid\"]"
-  gsettings set org.gnome.shell disabled-extensions "[]"
-  gsettings set org.gnome.shell disable-user-extensions false
-
-  echo "Using isolated GNOME profile: $devkit_profile_dir"
-
-  (
-    if ! gdbus wait --session --timeout 30 org.gnome.Shell; then
-      echo "GNOME Shell did not appear on nested DBus session" >&2
-      exit 1
-    fi
-
-    for _ in {1..60}; do
-      if gnome-extensions info "$extension_uuid" >/dev/null 2>&1; then
-        gnome-extensions enable "$extension_uuid"
-        echo "Enabled $extension_uuid"
-        exit 0
-      fi
-
-      sleep 1
-    done
-
-    if ! gnome-extensions info "$extension_uuid"; then
-      echo "Extension $extension_uuid is not visible to nested GNOME Shell" >&2
-      exit 1
-    fi
-  ) &
-
-  exec gnome-shell --devkit --wayland
-'
+bash scripts/start-nested-shell-with-cross-switcher.sh
 ```
 
-This is available as the VSC (VS Code / VS Codium) task `(re)start shell with extension`.
-
-Notes:
-
-- _A closed DBus session (`dbus-run-session`) cannot be reused; when nested shell exits, its DBus session is gone too._
-
-- _Nested shell uses isolated GNOME settings under `$XDG_RUNTIME_DIR/cross-switcher-gnome-devkit-profile`, so it does not reuse extensions enabled in main shell. It sets enabled extension list to Cross Switcher before shell starts._
-
-- _`gdbus wait` avoids fixed sleep after starting shell. It returns when `org.gnome.Shell` appears on the nested session bus. `gnome-extensions info` then verifies the extension is visible before enabling it._
-
-- _GNOME Shell runs as main foreground process. Helper commands run in background inside same DBus session. If helper command fails, nested shell keeps running so DBus session is not closed while GNOME Shell is still starting._
-
-- _`org.gnome.Shell` can appear before GNOME Shell finishes scanning extensions. The loop waits (up to 1 min) until this specific extension is visible before enabling it._
+This is available as the VSC task `(re)start shell with extension`.
 
 For detailed instructions see below [Detailed Instructions](#detailed-instructions)
 
@@ -259,6 +213,24 @@ Note: GNOME 48 and older:
 ```sh
 dbus-run-session gnome-shell --nested --wayland
 ```
+
+Notes:
+
+- _A closed DBus session (`dbus-run-session`) cannot be reused; when nested shell exits, its DBus session is gone too._
+
+- _`gdbus wait` avoids fixed sleep after starting shell. It returns when `org.gnome.Shell` appears on the nested session bus. `gnome-extensions info` then verifies the extension is visible before enabling it._
+
+- _GNOME Shell runs as main foreground process. Helper commands run in background inside same DBus session. If helper command fails, nested shell keeps running so DBus session is not closed while GNOME Shell is still starting._
+
+- _`org.gnome.Shell` can appear before GNOME Shell finishes scanning extensions. The loop waits (up to 1 min) until this specific extension is visible before enabling it._
+
+- _Nested shell uses isolated GNOME settings under `$XDG_RUNTIME_DIR/cross-switcher-gnome-devkit-profile`, so it does not reuse extensions enabled in main shell. It sets enabled extension list to Cross Switcher before shell starts._
+
+- _Nested shell uses an isolated dconf profile and empty config dirs to avoid host GNOME defaults as much as possible._
+
+- _Nested shell may still see host/system extensions as installed, because GNOME Shell devkit is not a full separate login session. This script only requests Cross Switcher to be enabled._
+
+- _On nix the nested shell use gnome-shell from flake.nix (v50 at time of writing). Apps launched inside nested shell may still use host app binaries, host D-Bus services, or host settings. Version shown in GNOME Settings or Extension Manager app UI or even in Terminal's `gnome-shell --version` is the one from host, might not correspond to the actuall version used which is printed by the script on launch._
 
 ### Enable Extension
 
