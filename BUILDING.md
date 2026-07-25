@@ -39,6 +39,47 @@ nix shell nixpkgs#gnumake nixpkgs#glib nixpkgs#glib.dev nixpkgs#dbus nixpkgs#zip
 
 </details>
 
+<details>
+<summary>NixOS project dev environment with direnv</summary>
+
+This repo provides:
+
+```text
+.envrc
+flake.nix
+```
+
+`flake.nix` defines the development tools. `.envrc` tells direnv to load that flake when entering this repo.
+
+One-time setup after cloning or after editing `.envrc`:
+
+```sh
+direnv allow
+```
+
+Expected result after direnv loads:
+
+```sh
+command -v make
+command -v glib-compile-schemas
+command -v gnome-shell
+```
+
+Recommended NixOS/Home Manager setup:
+
+```nix
+programs.direnv.enable = true;
+programs.direnv.nix-direnv.enable = true;
+```
+
+Notes:
+- _`direnv`: system wide CLI tool that reads `.envrc`, asks for trust with `direnv allow`, then loads/unloads environment variables when entering/leaving project directory._
+- _`nix-direnv`: direnv integration. It adds efficient Nix support for `use flake`, caches evaluated dev shell environment, and keeps Nix outputs alive from garbage collection while allowed._
+- _VSC direnv extension uses system's `direnv`._
+
+
+</details>
+
 ## TLDR; One-Shot Instructions
 
 ### 1. Build and Link Extension
@@ -139,7 +180,7 @@ For detailed instructions see below [Detailed Instructions](#detailed-instructio
 3. Restart nested GNOME Shell after JavaScript, CSS or schema changes. (VSC task: `(re)start shell with extension`)
 4. Reopen preferences after `prefs.js` changes.
 
-**run the VSC task: `(re)start shell with extension` to rebuild and restart the nested shell in one go, since it depends on `(re)build extension` task it will run first.** This is not needed when only JS or CSS is changed but it's harmless.**
+**Run the VSC task `(re)start shell with extension` to rebuild and restart the nested shell in one go, since it depends on `(re)build extension` task so it will run first.** This is not needed when only JS or CSS is changed, but it is harmless.
 
 ## Detailed Instructions
 
