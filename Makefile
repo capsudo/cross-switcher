@@ -1,8 +1,9 @@
 SHELL := /bin/bash
 
 # Replace these with the name and domain of your extension!
-NAME     := advanced-alt-tab
-DOMAIN   := G-dH.github.com
+NAME     := cross-switcher
+DOMAIN   := capsudo.github.com
+SCHEMA_FILE := schemas/org.gnome.shell.extensions.cross-switcher.gschema.xml
 ZIP_NAME := $(NAME)@$(DOMAIN).zip
 
 # Some of the recipes below depend on some of these files.
@@ -38,7 +39,7 @@ pot: $(JS_FILES) $(UI_FILES)
 	@echo "Generating '$(NAME).pot'..."
 	@xgettext --from-code=UTF-8 \
 	          --add-comments=Translators \
-	          --copyright-holder="GdH" \
+	          --copyright-holder="capsudo" \
 	          --package-name="$(NAME)" \
 	          --output=po/$(NAME).pot \
 	          $(JS_FILES) $(UI_FILES)
@@ -66,7 +67,7 @@ $(ZIP_NAME): $(ZIP_CONTENT)
 	 fi
 
 # Compiles the gschemas.compiled file from the gschema.xml file.
-schemas/gschemas.compiled: schemas/org.gnome.shell.extensions.$(NAME)-window-switcher.gschema.xml
+schemas/gschemas.compiled: $(SCHEMA_FILE)
 	@echo "Compiling schemas..."
 	@glib-compile-schemas schemas
 

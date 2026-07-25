@@ -1,8 +1,8 @@
 /**
- * AATWS - Advanced Alt-Tab Window Switcher
+ * Cross Switcher
  * Enum
  *
- * @author     GdH <G-dH@github.com>
+ * @author     capsudo <capsudo@github.com>
  * @copyright  2021-2024
  * @license    GPL-3.0
  */

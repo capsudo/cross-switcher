@@ -1,8 +1,8 @@
 /**
- * AATWS - Advanced Alt-Tab Window Switcher
+ * Cross Switcher
  * WindowSwitcherPopup
  *
- * @author     GdH <G-dH@github.com>
+ * @author     capsudo <capsudo@github.com>
  * @copyright  2021-2026
  * @license    GPL-3.0
  */
@@ -138,7 +138,7 @@ export const WindowSwitcherPopup = {
         this._modifierMask         = global.get_pointer()[2] & 77; // 77 covers Shift|Ctrl|Alt|Super
         this._keyBind              = ''; // can be set by the external trigger which provides the keyboard shortcut
 
-        this._keyboardTriggered    = true; // can be set to false if mouse was used to trigger AATWS
+        this._keyboardTriggered    = true; // can be set to false if mouse was used to trigger Cross Switcher
         this._positionPointer      = false; // will be updated in show()
         this._dashMode             = false; // will be updated in show()
 
@@ -179,7 +179,7 @@ export const WindowSwitcherPopup = {
 
         opt.cancelTimeout           = false;
 
-        Main.layoutManager.aatws = this;
+        Main.layoutManager.crossSwitcher = this;
 
         global.workspace_manager.connectObject('workspace-switched', this._onWorkspaceChanged.bind(this), this);
         Main.overview.connectObject('showing', () => this.fadeAndDestroy(), this);
@@ -341,7 +341,7 @@ export const WindowSwitcherPopup = {
             200,
             () => {
                 if (!this._pushModal()) {
-                    console.error(`[${Me.metadata.name}] Error: Unable to grab input, AATWS failed to pop up`);
+                    console.error(`[${Me.metadata.name}] Error: Unable to grab input, Cross Switcher failed to pop up`);
                     this.destroy();
                 }
 
@@ -781,7 +781,7 @@ export const WindowSwitcherPopup = {
         this._actions?.clean();
         this._actions = null;
 
-        Main.layoutManager.aatws = null;
+        Main.layoutManager.crossSwitcher = null;
     },
 
     _destroyWinPreview() {

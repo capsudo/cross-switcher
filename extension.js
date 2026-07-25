@@ -1,8 +1,8 @@
 /**
- * AATWS - Advanced Alt-Tab Window Switcher
+ * Cross Switcher
  * Extension
  *
- * @author     GdH <G-dH@github.com>
+ * @author     capsudo <capsudo@github.com>
  * @copyright  2021-2024
  * @license    GPL-3.0
  */
@@ -31,7 +31,7 @@ import { Extension, gettext as _ } from 'resource:///org/gnome/shell/extensions/
 const HOT_CORNER_PRESSURE_TIMEOUT = 1000; // ms
 
 
-export default class AATWS extends Extension {
+export default class CrossSwitcher extends Extension {
     constructor(metadata) {
         super(metadata);
 
@@ -81,8 +81,8 @@ export default class AATWS extends Extension {
         if (this._wmFocusToActiveHandlerId)
             global.display.disconnect(this._wmFocusToActiveHandlerId);
 
-        Main.layoutManager.aatws?.destroy();
-        Main.layoutManager.aatws = null;
+        Main.layoutManager.crossSwitcher?.destroy();
+        Main.layoutManager.crossSwitcher = null;
 
         if (this._overrides) {
             this._overrides.removeOverride('WindowSwitcherPopup');

@@ -1,8 +1,8 @@
 /**
- * AATWS - Advanced Alt-Tab Window Switcher
+ * Cross Switcher
  * SwitcherItems
  *
- * @author     GdH <G-dH@github.com>
+ * @author     capsudo <capsudo@github.com>
  * @copyright  2021-2025
  * @license    GPL-3.0
  */
@@ -87,7 +87,7 @@ export const WindowIcon = GObject.registerClass({
 
     _createCloseButton(metaWin) {
         const closeButton = new St.Icon({
-            style_class: 'window-close-aatws',
+            style_class: 'window-close-cross-switcher',
             icon_name: 'window-close-symbolic',
             x_align: Clutter.ActorAlign.END,
             y_align: Clutter.ActorAlign.START,
@@ -305,7 +305,7 @@ export const AppIcon = GObject.registerClass({
         this._iconContainer.add_child(this.icon);
 
         this._dot = new St.Widget({
-            style_class: 'app-grid-running-dot app-well-app-running-dot running-dot-aatws',
+            style_class: 'app-grid-running-dot app-well-app-running-dot running-dot-cross-switcher',
             layout_manager: new Clutter.BinLayout(),
             x_expand: true,
             y_expand: true,

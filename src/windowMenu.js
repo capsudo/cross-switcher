@@ -1,9 +1,9 @@
 /**
- * AATWS - Advanced Alt-Tab Window Switcher
+ * Cross Switcher
  * WindowMenu
  * modified original windowMenu modul
  *
- * @author     GdH <G-dH@github.com>
+ * @author     capsudo <capsudo@github.com>
  * @copyright  2021-2025
  * @license    GPL-3.0
  */
@@ -223,8 +223,8 @@ export const WindowMenu = class extends PopupMenu.PopupMenu {
 };
 
 export const WindowMenuManager = class {
-    constructor(aatws) {
-        this._wsp = aatws;
+    constructor(crossSwitcherWindowSwitcherPopup) {
+        this._wsp = crossSwitcherWindowSwitcherPopup;
         this._manager = new PopupMenu.PopupMenuManager(Main.layoutManager.dummyCursor);
     }
 

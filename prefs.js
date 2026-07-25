@@ -1,8 +1,8 @@
 /**
- * AATWS - Advanced Alt-Tab Window Switcher
+ * Cross Switcher
  * Prefs
  *
- * @author     GdH <G-dH@github.com>
+ * @author     capsudo <capsudo@github.com>
  * @copyright  2021-2024
  * @license    GPL-3.0
  */
@@ -47,7 +47,7 @@ function _getActionList() {
 }
 
 
-export default class AATWS extends ExtensionPreferences {
+export default class CrossSwitcher extends ExtensionPreferences {
     _getPageList() {
         const itemFactory = new OptionsFactory.ItemFactory(this.opt);
         const options = this._getOptions(itemFactory);
@@ -371,7 +371,7 @@ export default class AATWS extends ExtensionPreferences {
 
         optDict.ShowIfNoWin = itemFactory.getRowWidget(
             _('Show Favorite Apps When No Window Open'),
-            _('If no normal window is open, AATWS can show you a list of favorite applications pinned to dash instead, allowing you to (search and) launch a new one'),
+            _('If no normal window is open, Cross Switcher can show you a list of favorite applications pinned to dash instead, allowing you to (search and) launch a new one'),
             itemFactory.newSwitch(),
             'switcherPopupShowIfNoWin'
         );
@@ -469,7 +469,7 @@ export default class AATWS extends ExtensionPreferences {
 
         optDict.WsThumbnails = itemFactory.getRowWidget(
             _('Show Workspace Thumbnails'),
-            _('AATWS displays workspace thumbnails above or below the switcher, allowing you to preview their content, drag and drop windows between workspaces and switch workspaces with the mouse. Additionally, you can reorder the current workspace using (Ctrl or Shift)+Scroll or Ctrl+Page Up/Down'),
+            _('Cross Switcher displays workspace thumbnails above or below the switcher, allowing you to preview their content, drag and drop windows between workspaces and switch workspaces with the mouse. Additionally, you can reorder the current workspace using (Ctrl or Shift)+Scroll or Ctrl+Page Up/Down'),
             itemFactory.newDropDown(),
             'switcherWsThumbnails',
             [
@@ -481,13 +481,13 @@ export default class AATWS extends ExtensionPreferences {
 
         optDict.Theme = itemFactory.getRowWidget(
             _('Color Style'),
-            _('The "Default" option corresponds to the current Shell theme, and "Follow System Color Style" switches between AATWS Dark and Light styles based on the current GNOME color style (available in GNOME 42 and higher)'),
+            _('The "Default" option corresponds to the current Shell theme, and "Follow System Color Style" switches between Cross Switcher Dark and Light styles based on the current GNOME color style (available in GNOME 42 and higher)'),
             itemFactory.newDropDown(),
             'switcherPopupTheme',
             [
                 [_('Default'),                              0],
-                [_('AATWS Dark'),                           1],
-                [_('AATWS Light'),                          2],
+                [_('Cross Switcher Dark'),                           1],
+                [_('Cross Switcher Light'),                          2],
                 [_('Follow System Color Style'),            3],
                 [_('Follow System Color Style - Inverted'), 4],
             ]
@@ -621,7 +621,7 @@ export default class AATWS extends ExtensionPreferences {
 
         optDict.ShowDash = itemFactory.getRowWidget(
             _('Dash Visibility'),
-            _('Manages the visibility of the Dash in the Activities overview. You can disable the Dash if you are using AATWS instead'),
+            _('Manages the visibility of the Dash in the Activities overview. You can disable the Dash if you are using Cross Switcher instead'),
             itemFactory.newDropDown(),
             'showDash',
             [
@@ -637,7 +637,7 @@ export default class AATWS extends ExtensionPreferences {
 
         optDict.RememberInput = itemFactory.getRowWidget(
             _('Remember Keyboard'),
-            _('AATWS can remember the keyboard layout you set with the Shift + Enter shortcut. Note: This option may significantly slow down window switching, as changing the input source is slow in GNOME Shell'),
+            _('Cross Switcher can remember the keyboard layout you set with the Shift + Enter shortcut. Note: This option may significantly slow down window switching, as changing the input source is slow in GNOME Shell'),
             itemFactory.newSwitch(),
             'rememberInput'
         );
@@ -651,7 +651,7 @@ export default class AATWS extends ExtensionPreferences {
 
         optDict.ShortcutWin = itemFactory.getRowWidget(
             _('Keyboard Shortcuts'),
-            _('AATWS replaces the default window switcher popups. Set keyboard shortcuts in GNOME Settings app > Keyboard > Keyboard Shortcuts > "Switch windows" and "Switch windows of an application."'),
+            _('Cross Switcher replaces the default window switcher popups. Set keyboard shortcuts in GNOME Settings app > Keyboard > Keyboard Shortcuts > "Switch windows" and "Switch windows of an application."'),
             itemFactory.newLabel()
         );
 
@@ -823,7 +823,7 @@ export default class AATWS extends ExtensionPreferences {
 
         optDict.ShortcutApp = itemFactory.getRowWidget(
             _('Keyboard Shortcut'),
-            _('AATWS replaces the default app switcher popup. Set keyboard shortcut in GNOME Settings app > Keyboard > Keyboard Shortcuts > "Switch applications"'),
+            _('Cross Switcher replaces the default app switcher popup. Set keyboard shortcut in GNOME Settings app > Keyboard > Keyboard Shortcuts > "Switch applications"'),
             itemFactory.newLabel()
         );
 
@@ -994,7 +994,7 @@ export default class AATWS extends ExtensionPreferences {
         );
 
         optDict.DashMode = itemFactory.getRowWidget(
-            _('Dash Mode Options (AATWS opened using a hot edge or Super key)')
+            _('Dash Mode Options (Cross Switcher opened using a hot edge or Super key)')
         );
 
         optDict.AutomaticallyReverseOrder = itemFactory.getRowWidget(
@@ -1388,7 +1388,7 @@ The current monitor is the one where the switcher pop-up is located'),
 
         optionList.push(itemFactory.getRowWidget(
             _('Open Preferences'),
-            _('Opens AATWS settings window.'),
+            _('Opens Cross Switcher settings window.'),
             itemFactory.newEntry(),
             'hotkeyPrefs'
         )
@@ -1635,31 +1635,31 @@ If apps are ordered by MRU, first pres of the hotkey reorders apps by Favorites'
         optionList.push(itemFactory.getRowWidget(
             _('Homepage'),
             _('Source code and more info about this extension'),
-            itemFactory.newLinkButton('https://github.com/G-dH/advanced-alttab-window-switcher')
+            itemFactory.newLinkButton('https://github.com/capsudo/cross-switcher')
         ));
 
         optionList.push(itemFactory.getRowWidget(
             _('Changelog'),
             _("See what's changed."),
-            itemFactory.newLinkButton('https://github.com/G-dH/advanced-alttab-window-switcher/blob/main/CHANGELOG.md')
+            itemFactory.newLinkButton('https://github.com/capsudo/cross-switcher/blob/main/CHANGELOG.md')
         ));
 
         optionList.push(itemFactory.getRowWidget(
             _('GNOME Extensions'),
-            _('Rate and comment the extension on GNOME Extensions site.'),
-            itemFactory.newLinkButton('https://extensions.gnome.org/extension/4412')
+            _('Manage installed GNOME Shell extensions.'),
+            itemFactory.newLinkButton('https://extensions.gnome.org/local/')
         ));
 
         optionList.push(itemFactory.getRowWidget(
             _('Report a bug or suggest new feature'),
             null,
-            itemFactory.newLinkButton('https://github.com/G-dH/advanced-alttab-window-switcher/issues')
+            itemFactory.newLinkButton('https://github.com/capsudo/cross-switcher/issues')
         ));
 
         optionList.push(itemFactory.getRowWidget(
             _('Buy Me a Coffee'),
             _('Enjoying this extension? Consider supporting it by buying me a coffee!'),
-            itemFactory.newLinkButton('https://buymeacoffee.com/georgdh')
+            itemFactory.newLinkButton('https://buymeacoffee.com/capsudo')
         ));
 
         return optionList;

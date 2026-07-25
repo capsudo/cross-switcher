@@ -55,7 +55,7 @@
   padding-right: 0.7em;
 }
 
-.running-dot-aatws {
+.running-dot-cross-switcher {
   margin-bottom: 0px;
   width: 1.2em;
   height: 2px;
@@ -120,7 +120,7 @@
   padding-right: 0.5em;*/
 }
 
-.window-close-aatws {
+.window-close-cross-switcher {
   color: white;
   background-color: dimgrey;
   width: 18px;

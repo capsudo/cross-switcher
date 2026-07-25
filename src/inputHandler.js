@@ -1,8 +1,8 @@
 /**
- * AATWS - Advanced Alt-Tab Window Switcher
+ * Cross Switcher
  * EventHandler
  *
- * @author     GdH <G-dH@github.com>
+ * @author     capsudo <capsudo@github.com>
  * @copyright  2021-2026
  * @license    GPL-3.0
  */
@@ -541,11 +541,11 @@ export class InputHandler {
     // ///////////////////////////////////////////////////////////////////////////////
     // Keyboard layout
 
-    // Set keyboard layout stored in AATWS settings if available and needed.
+    // Set keyboard layout stored in Cross Switcher settings if available and needed.
     // This function must be executed after the popup is displayed and reset before activation of selected window.
 
     // In GS 40-42 any popup window causes the currently active window lose focus, unlike in 3.3x and 43+.
-    // This means that AATWS is actually setting input for the active window in GS 3.3x and 43+,
+    // This means that Cross Switcher is actually setting input for the active window in GS 3.3x and 43+,
     // if GS is set to Set input individually for each window
     // and needs to be reset before activation of another window.
     setInput(reset = false) {
