@@ -67,6 +67,7 @@ test "$(readlink "$extension_link")" = "$PWD"
 
 This will:
 - start/restart nested DBus session for shell and helper commands
+- use isolated GNOME settings instead of main shell settings
 - wait for GNOME Shell D-Bus service, no fixed sleep
 - wait until Cross Switcher is visible to GNOME Shell
 - enable extension in this session
@@ -75,6 +76,19 @@ This will:
 dbus-run-session -- bash -lc '
   set -euo pipefail
   extension_uuid="cross-switcher@capsudo.github.com"
+  devkit_profile_dir="${XDG_RUNTIME_DIR:-/tmp}/cross-switcher-gnome-devkit-profile"
+
+  mkdir -p "$devkit_profile_dir/config" "$devkit_profile_dir/cache" "$devkit_profile_dir/state"
+
+  export XDG_CONFIG_HOME="$devkit_profile_dir/config"
+  export XDG_CACHE_HOME="$devkit_profile_dir/cache"
+  export XDG_STATE_HOME="$devkit_profile_dir/state"
+
+  gsettings set org.gnome.shell enabled-extensions "[\"$extension_uuid\"]"
+  gsettings set org.gnome.shell disabled-extensions "[]"
+  gsettings set org.gnome.shell disable-user-extensions false
+
+  echo "Using isolated GNOME profile: $devkit_profile_dir"
 
   (
     if ! gdbus wait --session --timeout 30 org.gnome.Shell; then
@@ -108,7 +122,7 @@ Notes:
 
 - _A closed DBus session (`dbus-run-session`) cannot be reused; when nested shell exits, its DBus session is gone too._
 
-- _Enabled extension state is stored in GNOME settings, so after enabling once it should usually stay enabled for next nested shell start. The command below still runs `gnome-extensions enable`, because it is safe to repeat and makes restart flow explicit._
+- _Nested shell uses isolated GNOME settings under `$XDG_RUNTIME_DIR/cross-switcher-gnome-devkit-profile`, so it does not reuse extensions enabled in main shell. It sets enabled extension list to Cross Switcher before shell starts._
 
 - _`gdbus wait` avoids fixed sleep after starting shell. It returns when `org.gnome.Shell` appears on the nested session bus. `gnome-extensions info` then verifies the extension is visible before enabling it._
 
