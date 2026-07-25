@@ -111,7 +111,7 @@ This will:
 - enable extension in this session
 
 ```sh
-bash scripts/start-nested-shell-with-cross-switcher.sh
+bash scripts/start-nested-shell-with-extension.sh
 ```
 
 This is available as the VSC task `(re)start shell with extension`.

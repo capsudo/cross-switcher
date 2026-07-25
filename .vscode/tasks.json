@@ -46,7 +46,7 @@
       ],
       "dependsOrder": "sequence",
       "args": [
-        "scripts/start-nested-shell-with-cross-switcher.sh"
+        "scripts/start-nested-shell-with-extension.sh"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
