@@ -102,6 +102,8 @@ dbus-run-session -- bash -lc '
 '
 ```
 
+This is available as the VSC (VS Code / VS Codium) task `(re)start shell with extension`.
+
 Notes:
 
 - _A closed DBus session (`dbus-run-session`) cannot be reused; when nested shell exits, its DBus session is gone too._

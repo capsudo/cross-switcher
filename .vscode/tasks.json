@@ -1,0 +1,24 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "(re)start shell with extension",
+      "type": "shell",
+      "command": "dbus-run-session",
+      "args": [
+        "--",
+        "bash",
+        "-lc",
+        "set -euo pipefail\nextension_uuid=\"cross-switcher@capsudo.github.com\"\n\n(\n  if ! gdbus wait --session --timeout 30 org.gnome.Shell; then\n    echo \"GNOME Shell did not appear on nested DBus session\" >&2\n    exit 1\n  fi\n\n  for _ in {1..60}; do\n    if gnome-extensions info \"$extension_uuid\" >/dev/null 2>&1; then\n      gnome-extensions enable \"$extension_uuid\"\n      echo \"Enabled $extension_uuid\"\n      exit 0\n    fi\n\n    sleep 1\n  done\n\n  if ! gnome-extensions info \"$extension_uuid\"; then\n    echo \"Extension $extension_uuid is not visible to nested GNOME Shell\" >&2\n    exit 1\n  fi\n) &\n\nexec gnome-shell --devkit --wayland"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "panel": "dedicated",
+        "reveal": "always"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
