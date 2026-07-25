@@ -22,6 +22,22 @@
       "problemMatcher": []
     },
     {
+      "label": "build and link extension",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "scripts/build-and-link-extension.sh"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "panel": "shared",
+        "reveal": "always"
+      },
+      "problemMatcher": []
+    },
+    {
       "label": "(re)start shell with extension",
       "type": "shell",
       "command": "bash",

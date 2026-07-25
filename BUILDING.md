@@ -96,19 +96,10 @@ This will:
 - verify symlink points to this checkout
 
 ```sh
-set -euo pipefail
-
-extension_uuid="cross-switcher@capsudo.github.com"
-extension_link="$HOME/.local/share/gnome-shell/extensions/$extension_uuid"
-
-make all
-
-mkdir -p ~/.local/share/gnome-shell/extensions
-ln -sfnT "$PWD" "$extension_link"
-ls -ld "$extension_link"
-
-test "$(readlink "$extension_link")" = "$PWD"
+bash scripts/build-and-link-extension.sh
 ```
+
+This is available as the VSC task `build and link extension`.
 
 ### 2. Start Nested Shell and Enable Extension
 
