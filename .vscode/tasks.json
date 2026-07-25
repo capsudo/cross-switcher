@@ -2,9 +2,33 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "(re)build extension",
+      "type": "shell",
+      "command": "make",
+      "args": [
+        "all"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "panel": "shared",
+        "reveal": "always"
+      },
+      "problemMatcher": []
+    },
+    {
       "label": "(re)start shell with extension",
       "type": "shell",
       "command": "dbus-run-session",
+      "dependsOn": [
+        "(re)build extension"
+      ],
+      "dependsOrder": "sequence",
       "args": [
         "--",
         "bash",

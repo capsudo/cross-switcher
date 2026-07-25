@@ -116,7 +116,16 @@ Notes:
 
 - _`org.gnome.Shell` can appear before GNOME Shell finishes scanning extensions. The loop waits (up to 1 min) until this specific extension is visible before enabling it._
 
-For detailed instructions see below:
+For detailed instructions see below [Detailed Instructions](#detailed-instructions)
+
+## Development Loop
+
+1. Edit JavaScript, CSS or schema files.
+2. Run `make all` after schema changes. JavaScript and CSS changes do not need rebuild. (VSC task: `(re)build extension`)
+3. Restart nested GNOME Shell after JavaScript, CSS or schema changes. (VSC task: `(re)start shell with extension`)
+4. Reopen preferences after `prefs.js` changes.
+
+**run the VSC task: `(re)start shell with extension` to rebuild and restart the nested shell in one go, since it depends on `(re)build extension` task it will run first.** This is not needed when only JS or CSS is changed but it's harmless.**
 
 ## Detailed Instructions
 
@@ -222,13 +231,6 @@ If command says extension does not exist, usually one of these is true:
 - schemas/gschemas.compiled was not built
 - GNOME Shell started before symlink was created
 - command runs in different DBus session than nested shell
-
-## Development Loop
-
-1. Edit JavaScript, CSS or schema files.
-2. Run `make all` after schema changes.
-3. Restart nested GNOME Shell after JavaScript or schema changes.
-4. Reopen preferences after `prefs.js` changes.
 
 ### Quick checks before restarting GNOME Shell:
 
